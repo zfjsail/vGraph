@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib
+matplotlib.use('PS')
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
 from collections import defaultdict

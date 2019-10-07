@@ -24,7 +24,7 @@ import collections
 import re
 
 from data_utils import load_cora_citeseer, load_webkb
-from utils import calc_nonoverlap_nmi
+from score_utils import calc_nonoverlap_nmi
 import community
 import torch
 import numpy as np
@@ -40,7 +40,7 @@ parser.add_argument('--epochs', type=int, default=1001, help='Number of epochs t
 parser.add_argument('--embedding-dim', type=int, default=128, help='')
 parser.add_argument('--lr', type=float, default=0.1, help='Initial learning rate.')
 parser.add_argument('--dropout', type=float, default=0., help='Dropout rate (1 - keep probability).')
-parser.add_argument('--dataset-str', type=str, default='facebook0', help='type of dataset.')
+parser.add_argument('--dataset-str', type=str, default='cora', help='type of dataset.')
 # parser.add_argument('--task', type=str, default='community', help='type of dataset.')
 
 
@@ -225,7 +225,7 @@ if __name__ == '__main__':
         cur_loss = loss.item()
         optimizer.step()
         
-        if epoch % 100 == 0:
+        if epoch % 10 == 0:
             temp = np.maximum(temp*np.exp(-ANNEAL_RATE*epoch),temp_min)
             
             model.eval()
