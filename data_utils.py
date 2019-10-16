@@ -337,7 +337,7 @@ def read_dblp_small2(fpath):
     return G, nx.adjacency_matrix(G), edge_labels
 
 def load_cora_citeseer(ds):
-    dirpath = 'data/{}'.format(ds)
+    dirpath = '../data/{}'.format(ds)
     edge_path = dirpath + '/{}.cites'.format(ds)
     content_path = dirpath + '/{}.content'.format(ds)
     

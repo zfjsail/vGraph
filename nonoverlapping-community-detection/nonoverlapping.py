@@ -105,6 +105,8 @@ def classical_modularity_calculator(graph, embedding, model='gcn_vae', cluster_n
 
 def loss_function(recon_c, q_y, prior, c, norm=None, pos_weight=None):
     
+    # print('recon_c', recon_c.shape, recon_c)
+    # print('c', c.shape, c)
     BCE = F.cross_entropy(recon_c, c, reduction='sum') / c.shape[0]
     # BCE = F.binary_cross_entropy_with_logits(recon_c, c, pos_weight=pos_weight)
     # return BCE
@@ -161,6 +163,7 @@ class GCNModelGumbel(nn.Module):
 
         # z.shape [batch_size, categorical_dim]
         new_z = torch.mm(z, self.community_embeddings.weight)
+        # new_z shape [batch_size, embedding_dim]
         recon = self.decoder(new_z)
             
         return recon, F.softmax(q, dim=-1), prior
