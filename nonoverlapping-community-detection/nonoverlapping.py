@@ -23,7 +23,7 @@ from torch.autograd import Variable
 import collections
 import re
 
-from data_utils import load_cora_citeseer, load_webkb
+from data_utils import load_cora_citeseer, load_webkb, load_blog
 from score_utils import calc_nonoverlap_nmi
 import community
 import torch
@@ -40,7 +40,7 @@ parser.add_argument('--epochs', type=int, default=1001, help='Number of epochs t
 parser.add_argument('--embedding-dim', type=int, default=128, help='')
 parser.add_argument('--lr', type=float, default=0.1, help='Initial learning rate.')
 parser.add_argument('--dropout', type=float, default=0., help='Dropout rate (1 - keep probability).')
-parser.add_argument('--dataset-str', type=str, default='cora', help='type of dataset.')
+parser.add_argument('--dataset-str', type=str, default='blog', help='type of dataset.')
 # parser.add_argument('--task', type=str, default='community', help='type of dataset.')
 
 
@@ -181,8 +181,13 @@ if __name__ == '__main__':
     # In[13]:
     if args.dataset_str in ['cora', 'citeseer']:
         G, adj, gt_membership = load_cora_citeseer(args.dataset_str)
+    elif args.dataset_str == 'blog':
+        G, adj, gt_membership = load_blog('../data/blog/blogcatalog.mat')
     else:
         G, adj, gt_membership = load_webkb(args.dataset_str)
+    print('G', type(G), G)
+    print('adj', type(adj), adj)
+    print('gt_membership', gt_membership)
 
     adj_orig = adj
     adj_orig = adj_orig - sp.dia_matrix((adj_orig.diagonal()[np.newaxis, :], [0]), shape=adj_orig.shape)

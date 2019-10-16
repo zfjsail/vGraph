@@ -5,6 +5,7 @@ import os
 import networkx as nx 
 import numpy as np
 import scipy.sparse as sp
+import scipy.io
 # import torch
 from sklearn.metrics import roc_auc_score, average_precision_score
 
@@ -758,6 +759,21 @@ def load_dataset(ds, relabel=True):
     print('number of communities', len(gt_communities))
 
     return G, adj, gt_communities
+
+
+def load_blog(fpath):
+    data = scipy.io.loadmat(fpath)
+    print("loading mat file %s", fpath)
+    label = data['group'].todense().astype(np.int)
+    label = np.array(label)
+    print(label.shape, type(label), label.min(), label.max())
+    label = np.argmax(label, axis=1, out=None)
+
+    adj = data['network'].tocsr()
+    G = nx.from_scipy_sparse_matrix(adj)
+    return G, adj, label
+
+
 
 if __name__ == '__main__':
     G, adj, membership = load_amazon()
