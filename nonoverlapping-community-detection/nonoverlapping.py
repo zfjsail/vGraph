@@ -40,7 +40,7 @@ parser.add_argument('--epochs', type=int, default=1001, help='Number of epochs t
 parser.add_argument('--embedding-dim', type=int, default=128, help='')
 parser.add_argument('--lr', type=float, default=0.1, help='Initial learning rate.')
 parser.add_argument('--dropout', type=float, default=0., help='Dropout rate (1 - keep probability).')
-parser.add_argument('--dataset-str', type=str, default='blog', help='type of dataset.')
+parser.add_argument('--dataset-str', type=str, default='cora', help='type of dataset.')
 # parser.add_argument('--task', type=str, default='community', help='type of dataset.')
 
 
@@ -115,7 +115,8 @@ def loss_function(recon_c, q_y, prior, c, norm=None, pos_weight=None):
     KLD = torch.sum(q_y*(log_qy - torch.log(prior)),dim=-1).mean()
 
     ent = (- torch.log(q_y) * q_y).sum(dim=-1).mean()
-    return BCE + KLD
+    # return BCE + KLD
+    return BCE
 
 class GCNModelGumbel(nn.Module):
     def __init__(self, size, embedding_dim, categorical_dim, dropout, device):
